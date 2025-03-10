@@ -1,19 +1,22 @@
 #include <QCoreApplication>
+#include <QDir>
+#include <QFileInfoList>
+#include <QTextStream>
+#include <QMap>
+#include <QFileInfo>
+#include <fcntl.h>
+
+#include "directorysizecalculator.h"
 
 int main(int argc, char *argv[])
 {
-    QCoreApplication a(argc, argv);
+    QCoreApplication app(argc, argv);
 
-    // Set up code that uses the Qt event loop here.
-    // Call a.quit() or a.exit() to quit the application.
-    // A not very useful example would be including
-    // #include <QTimer>
-    // near the top of the file and calling
-    // QTimer::singleShot(5000, &a, &QCoreApplication::quit);
-    // which quits the application after 5 seconds.
+    _setmode(_fileno(stdout), _O_U16TEXT);
+    setlocale(LC_ALL, "Russian");
 
-    // If you do not need a running Qt event loop, remove the call
-    // to a.exec() or use the Non-Qt Plain C++ Application template.
+    DirectorySizeCalculator calculator;
+    calculator.run();
 
-    return a.exec();
+    return 0;
 }
