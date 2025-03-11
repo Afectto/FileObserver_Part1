@@ -1,29 +1,23 @@
 #include "fileliststrategy.h"
 
 
-std::vector<QPair<QString, QString>> FileListStrategy::calculate(const QString &path)
-{
+std::vector<QPair<QString, QString>> FileListStrategy::calculate(const QString &path) {
     QDir dir(path);
     if (!dir.exists()) {
         qWarning() << "Directory does not exist.";
         return {};
     }
 
-    qInfo() << "Scanning directory: " << path;
-    std::vector<QPair<QString, QString>> dataList;
-    scanDirectory(dir, dataList);
-    return dataList;
-}
-
-void FileListStrategy::scanDirectory(const QDir &dir, std::vector<QPair<QString, QString>> &dataList, int level)
-{
     QFileInfoList list = dir.entryInfoList(QDir::NoDotAndDotDot | QDir::AllEntries);
-    for (const QFileInfo& fileInfo : list) {
-        QString type = fileInfo.isDir() ? "[DIR]" : "[FILE]";
-        dataList.emplace_back(type + " " + fileInfo.fileName(), "N/A");
+    QMap<QString, qint64> sizeMap;
+    qint64 totalSize = 0;
 
-        if (fileInfo.isDir()) {
-            scanDirectory(QDir(fileInfo.absoluteFilePath()), dataList, level + 1);
-        }
+    for (const QFileInfo& fileInfo : list) {
+        qint64 fileSize = this->calculateSize(fileInfo.absoluteFilePath());
+        totalSize += fileSize;
+        QString type = fileInfo.isDir() ? "[DIR] " + fileInfo.fileName() : "[FILE] " + fileInfo.fileName();
+        sizeMap[type] = fileSize;
     }
+
+    return calculatePercentage(sizeMap, totalSize);
 }

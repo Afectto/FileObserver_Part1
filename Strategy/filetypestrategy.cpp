@@ -22,7 +22,7 @@ std::vector<QPair<QString, QString>> FileTypeStrategy::calculate(const QString &
             sizeMap[fileType] += fileInfo.size();
             totalSize += fileInfo.size();
         } else if (fileInfo.isDir()) {
-            qint64 dirSize = calculateDirectorySize(fileInfo.absoluteFilePath());
+            qint64 dirSize = calculateSize(fileInfo.absoluteFilePath());
             sizeMap["[DIR] " + fileInfo.fileName()] += dirSize;
             totalSize += dirSize;
         }
@@ -36,24 +36,9 @@ std::vector<QPair<QString, QString>> FileTypeStrategy::calculate(const QString &
     std::vector<QPair<QString, QString>> displayList;
     for (auto it = sizeMap.constBegin(); it != sizeMap.constEnd(); ++it) {
         double percentage = static_cast<double>(it.value()) / totalSize * 100;
-        QString percentageStr = QString::number(percentage, 'f', 2) + "%";
+        QString percentageStr = (percentage < 0.01 && it.value() > 0) ? "< 0.01%" : QString::number(percentage, 'f', 2) + "%";
         displayList.emplace_back(it.key(), percentageStr);
     }
 
     return displayList;
-}
-
-qint64 FileTypeStrategy::calculateDirectorySize(const QString &path)
-{
-    qint64 size = 0;
-    QDir dir(path);
-    QFileInfoList list = dir.entryInfoList(QDir::NoDotAndDotDot | QDir::AllEntries);
-    for (const QFileInfo& fileInfo : list) {
-        if (fileInfo.isFile()) {
-            size += fileInfo.size();
-        } else if (fileInfo.isDir()) {
-            size += calculateDirectorySize(fileInfo.absoluteFilePath());
-        }
-    }
-    return size;
 }
