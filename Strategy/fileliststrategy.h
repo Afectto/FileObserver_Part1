@@ -6,14 +6,12 @@
 #include <QDir>
 
 // Стратегия вывода списка файлов и папок верхнего уровня
-class FileListStrategy : public ISizeCalculationStrategy
-{
+class FileListStrategy : public ISizeCalculationStrategy {
 public:
-    void calculate(const QString& path) override;
+    std::vector<QPair<QString, QString>> calculate(const QString &path) override;
 
 private:
-    //Рекурсивно проходим по всем обьекам внитри пути
-    void scanDirectory(const QDir& dir, int level);
+    void scanDirectory(const QDir &dir, std::vector<QPair<QString, QString>> &dataList, int level = 0);
 };
 
 #endif // FILELISTSTRATEGY_H

@@ -1,4 +1,5 @@
 #include "directorysizecalculator.h"
+#include "Strategy/strategyoutputhandler.h"
 
 void DirectorySizeCalculator::run() {
     QTextStream qin(stdin);
@@ -10,7 +11,8 @@ void DirectorySizeCalculator::run() {
         ISizeCalculationStrategy* strategy = selectStrategy(qin);
 
         if (strategy) {
-            strategy->calculate(path);
+            std::vector<QPair<QString, QString>> results = strategy->calculate(path);
+            StrategyOutputHandler::printResults(results);
             delete strategy;
         }
 
@@ -29,8 +31,7 @@ QString DirectorySizeCalculator::requestDirectoryPath(QTextStream &qin, const QS
         if (qin.readLine().trimmed().toLower() == "y") {
             QString newPath;
             return requestDirectoryPath(qin, newPath);
-        }
-        else {
+        } else {
             return path;
         }
     }

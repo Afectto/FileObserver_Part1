@@ -9,6 +9,7 @@ CONFIG += c++17 cmdline
 SOURCES += \
         Strategy/fileliststrategy.cpp \
         Strategy/filetypestrategy.cpp \
+        Strategy/strategyoutputhandler.cpp \
         directorysizecalculator.cpp \
         main.cpp
 
@@ -21,4 +22,5 @@ HEADERS += \
     Strategy/fileliststrategy.h \
     Strategy/filetypestrategy.h \
     Strategy/isizecalculationstrategy.h \
+    Strategy/strategyoutputhandler.h \
     directorysizecalculator.h
