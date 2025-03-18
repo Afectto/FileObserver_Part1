@@ -1,6 +1,8 @@
 #ifndef ISIZECALCULATIONSTRATEGY_H
 #define ISIZECALCULATIONSTRATEGY_H
 
+#include <vector>
+#include <QPair>
 #include <QString>
 
 

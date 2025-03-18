@@ -1,6 +1,7 @@
 #ifndef BASESIZECALCULATIONSTRATEGY_H
 #define BASESIZECALCULATIONSTRATEGY_H
 
+#include <QMap>
 #include "isizecalculationstrategy.h"
 
 class BaseSizeCalculationStrategy : public ISizeCalculationStrategy {

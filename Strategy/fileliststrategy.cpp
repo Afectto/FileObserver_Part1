@@ -1,5 +1,5 @@
 #include "fileliststrategy.h"
-
+#include <QDebug>
 
 std::vector<QPair<QString, QString>> FileListStrategy::calculate(const QString &path) {
     QDir dir(path);

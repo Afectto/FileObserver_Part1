@@ -2,6 +2,7 @@
 #define DIRECTORYSIZECALCULATOR_H
 #include <QCoreApplication>
 #include <QTextStream>
+#include <QDebug>
 #include <QDir>
 #include <QFileInfo>
 #include <fcntl.h>
